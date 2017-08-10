@@ -1,6 +1,6 @@
-﻿using System;
-using HappyTokenApi.Models;
+﻿using HappyTokenApi.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Text;
 using UnityEngine;
@@ -57,17 +57,28 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
 
+        public void GetUser(string userId, Action<JsonWebToken> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/users/{userId}";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
         #endregion
 
         #region Helpers
 
-        private IEnumerator StartWebRequest<T>(string url, string data, Action<T> onSuccess, Action<string> onFail)
+        private IEnumerator StartWebRequest<T>(string url, string data, Action<T> onSuccess, Action<string> onFail, bool useJwt = false)
         {
             // Using scope will ensure the UnityWebRequest is disposed after use
-            using (var webRequest = string.IsNullOrEmpty(data)
-                ? UnityWebRequest.Get(url)
-                : UnityWebRequest.Post(url, data))
+            using (var webRequest = string.IsNullOrEmpty(data) ? UnityWebRequest.Get(url) : UnityWebRequest.Post(url, data))
             {
+                if (useJwt)
+                {
+                    var jwtHeader = $"Bearer {m_JsonWebToken.AccessToken}";
+                    webRequest.SetRequestHeader("Authorization", jwtHeader);
+                }
+
                 if (webRequest.method == "POST")
                 {
                     var uploadHandler = new UploadHandlerRaw(Encoding.ASCII.GetBytes(data))
@@ -90,8 +101,7 @@ namespace HappyTokenApi.Client
                     yield return new WaitForEndOfFrame();
                 }
 
-                Debug.LogFormat("WebRequest to {0} took {1:N2}s (Response:{2}, Error:{3})", url, time,
-                    webRequest.responseCode, webRequest.error);
+                Debug.LogFormat("WebRequest to {0} took {1:N2}s (Response:{2}, Error:{3})", url, time, webRequest.responseCode, webRequest.error);
 
                 if (webRequest.isNetworkError)
                 {
@@ -118,8 +128,7 @@ namespace HappyTokenApi.Client
                             }
                             else
                             {
-                                onFail?.Invoke(
-                                    $"WebRequest Json Deserialization Error: Could not deserialize payload to type {typeof(T)}.");
+                                onFail?.Invoke($"WebRequest Json Deserialization Error: Could not deserialize payload to type {typeof(T)}.");
                             }
                         }
                         else
