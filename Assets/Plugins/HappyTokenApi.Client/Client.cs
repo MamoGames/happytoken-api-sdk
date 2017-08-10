@@ -49,7 +49,7 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
 
-        public void LoginUser(UserAuthPair userAuthPair, Action<JsonWebToken> onSuccess, Action<string> onFail)
+        public void Authenticate(UserAuthPair userAuthPair, Action<JsonWebToken> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/authentication";
             var data = JsonConvert.SerializeObject(userAuthPair);
@@ -57,7 +57,7 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
 
-        public void GetUser(string userId, Action<JsonWebToken> onSuccess, Action<string> onFail)
+        public void GetUser(string userId, Action<UserLogin> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/users/{userId}";
 
@@ -75,8 +75,16 @@ namespace HappyTokenApi.Client
             {
                 if (useJwt)
                 {
-                    var jwtHeader = $"Bearer {m_JsonWebToken.AccessToken}";
-                    webRequest.SetRequestHeader("Authorization", jwtHeader);
+                    if (!string.IsNullOrEmpty(m_JsonWebToken?.AccessToken))
+                    {
+                        var jwtHeader = $"Bearer {m_JsonWebToken.AccessToken}";
+                        webRequest.SetRequestHeader("Authorization", jwtHeader);
+                    }
+                    else
+                    {
+                        Debug.LogError($"The JWT has not been set. Likely the user is not authneticatied.");
+                        yield break;
+                    }
                 }
 
                 if (webRequest.method == "POST")
