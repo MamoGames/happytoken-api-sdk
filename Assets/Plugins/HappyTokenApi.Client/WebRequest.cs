@@ -8,33 +8,35 @@ using UnityEngine.Networking;
 
 namespace HappyTokenApi.Client
 {
-    public class Client
+    public class WebRequest
     {
         private string m_ApiUrl;
         private JsonWebToken m_JsonWebToken;
         private MonoBehaviour m_MonoBehaviour;
 
-        public Client()
+        public WebRequest()
         {
         }
 
-        public Client SetApiUrl(string apiUrl)
+        public WebRequest SetApiUrl(string apiUrl)
         {
             m_ApiUrl = apiUrl;
 
             return this;
         }
 
-        public Client SetMonoBehaviour(MonoBehaviour monoBehaviour)
+        public WebRequest SetMonoBehaviour(MonoBehaviour monoBehaviour)
         {
             m_MonoBehaviour = monoBehaviour;
 
             return this;
         }
 
-        public Client SetJsonWebToken(JsonWebToken jsonWebToken)
+        public WebRequest SetJsonWebToken(JsonWebToken jsonWebToken)
         {
             m_JsonWebToken = jsonWebToken;
+
+            Debug.Log($"WebRequest.SetJsonWebToken: AccessToken:{jsonWebToken.AccessToken}, Expires:{jsonWebToken.ExpiresInSecs}");
 
             return this;
         }
