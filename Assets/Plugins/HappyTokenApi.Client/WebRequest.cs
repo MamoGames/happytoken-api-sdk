@@ -73,6 +73,46 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
         }
 
+        public void BuyCurrency(StoreCurrencySpot currencySpot, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/currencyspots";
+            var data = JsonConvert.SerializeObject(currencySpot);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void BuyAvatar(AvatarType avatarType, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/avatars";
+            var data = JsonConvert.SerializeObject(avatarType);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void BuyAvatarUpgrade(StoreAvatarUpgrade avatarUpgrade, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/avatarupgrades";
+            var data = JsonConvert.SerializeObject(avatarUpgrade);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void BuyBuilding(BuildingType buildingType, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/buildings";
+            var data = JsonConvert.SerializeObject(buildingType);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void BuyBuidlingUpgrade(StoreBuildingUpgrade buildingUpgrade, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/buildingupgrades";
+            var data = JsonConvert.SerializeObject(buildingUpgrade);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
         #endregion
 
         #region Helpers

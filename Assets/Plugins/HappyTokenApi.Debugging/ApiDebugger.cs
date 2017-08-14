@@ -13,7 +13,11 @@ namespace HappyTokenApi.Debugging
 
         public string ApiUrl { get; private set; }
         public string DeviceId { get; private set; }
+
         public bool IsAuthenticated { get; private set; }
+        public bool IsUserDataLoaded { get; private set; }
+        public bool IsConfigDataLoaded { get; private set; }
+
         public WebRequest WebRequest { get; private set; }
         public UserAuthPair UserAuthPair { get; private set; }
 
@@ -49,6 +53,16 @@ namespace HappyTokenApi.Debugging
         public void SetAuthenticated(bool isAuthenticated)
         {
             IsAuthenticated = isAuthenticated;
+        }
+
+        public void SetConfigDataLoaded(bool isConfigDataLoaded)
+        {
+            IsConfigDataLoaded = isConfigDataLoaded;
+        }
+
+        public void SetUserDataLoaded(bool isUserDataLoaded)
+        {
+            IsUserDataLoaded = isUserDataLoaded;
         }
 
         public void SetUserAuthPair(UserAuthPair userAuthPair, bool saveToPlayerPrefs)

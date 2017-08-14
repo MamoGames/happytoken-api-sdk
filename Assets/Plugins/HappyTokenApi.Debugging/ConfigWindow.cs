@@ -13,13 +13,20 @@ namespace HappyTokenApi.Debugging
 
             GUILayout.BeginHorizontal();
 
-            DrawAppDefaults();
+            if (ApiDebugger.Instance.IsConfigDataLoaded)
+            {
+                DrawAppDefaults();
 
-            DrawAvatars();
+                DrawAvatars();
 
-            DrawBuildings();
+                DrawBuildings();
 
-            DrawCakes();
+                DrawCakes();
+            }
+            else
+            {
+                GUILayout.Label("Config data is not loaded. Please Authenticate and Get Config.");
+            }
 
             GUILayout.EndHorizontal();
         }

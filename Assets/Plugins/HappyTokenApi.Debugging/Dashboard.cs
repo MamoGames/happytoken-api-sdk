@@ -55,6 +55,8 @@ namespace HappyTokenApi.Debugging
 
             GUILayout.Label("API Requests");
 
+            GUI.enabled = !ApiDebugger.Instance.IsAuthenticated;
+
             if (GUILayout.Button("Authenticate"))
             {
                 var userAuthPair = ApiDebugger.Instance.UserAuthPair;
@@ -68,6 +70,8 @@ namespace HappyTokenApi.Debugging
                     Debug.LogError("ApiDebugger.Authenticate: Failed");
                 });
             }
+
+            GUI.enabled = !ApiDebugger.Instance.IsUserDataLoaded;
 
             if (GUILayout.Button("Create User"))
             {
@@ -97,6 +101,8 @@ namespace HappyTokenApi.Debugging
                     ApiDebugger.Instance.ConfigDataStore.Avatars = appConfig.Avatars;
                     ApiDebugger.Instance.ConfigDataStore.Buildings = appConfig.Buildings;
                     ApiDebugger.Instance.ConfigDataStore.Cakes = appConfig.Cakes;
+                    ApiDebugger.Instance.ConfigDataStore.Store = appConfig.Store;
+                    ApiDebugger.Instance.SetConfigDataLoaded(true);
                 }, s =>
                 {
                     Debug.LogError("ApiDebugger.GetUser: Failed");
@@ -115,6 +121,7 @@ namespace HappyTokenApi.Debugging
                     ApiDebugger.Instance.CoreDataStore.Avatars = userLogin.UserAvatars;
                     ApiDebugger.Instance.CoreDataStore.Buildings = userLogin.UserBuildings;
                     ApiDebugger.Instance.CoreDataStore.Cakes = userLogin.UserCakes;
+                    ApiDebugger.Instance.SetUserDataLoaded(true);
                 }, s =>
                 {
                     Debug.LogError("ApiDebugger.GetUser: Failed");

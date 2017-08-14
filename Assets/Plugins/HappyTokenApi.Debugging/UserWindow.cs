@@ -13,13 +13,21 @@ namespace HappyTokenApi.Debugging
 
             GUILayout.BeginHorizontal();
 
-            DrawProfile();
+            if (ApiDebugger.Instance.IsUserDataLoaded)
+            {
 
-            DrawAvatars();
+                DrawProfile();
 
-            DrawBuildings();
+                DrawAvatars();
 
-            DrawCakes();
+                DrawBuildings();
+
+                DrawCakes();
+            }
+            else
+            {
+                GUILayout.Label("User data is not loaded. Please Authenticate and Get User.");
+            }
 
             GUILayout.EndHorizontal();
         }
