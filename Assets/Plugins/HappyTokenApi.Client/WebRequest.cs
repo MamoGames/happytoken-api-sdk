@@ -59,6 +59,13 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
 
+        public void GetAppConfig(Action<AppConfig> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/config";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
         public void GetUser(string userId, Action<UserLogin> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/users/{userId}";

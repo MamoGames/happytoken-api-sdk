@@ -89,6 +89,20 @@ namespace HappyTokenApi.Debugging
 
             GUI.enabled = ApiDebugger.Instance.IsAuthenticated;
 
+            if (GUILayout.Button("Get AppConfig"))
+            {
+                ApiDebugger.Instance.WebRequest.GetAppConfig((appConfig) =>
+                {
+                    ApiDebugger.Instance.ConfigDataStore.AppDefaults = appConfig.AppDefaults;
+                    ApiDebugger.Instance.ConfigDataStore.Avatars = appConfig.Avatars;
+                    ApiDebugger.Instance.ConfigDataStore.Buildings = appConfig.Buildings;
+                    ApiDebugger.Instance.ConfigDataStore.Cakes = appConfig.Cakes;
+                }, s =>
+                {
+                    Debug.LogError("ApiDebugger.GetUser: Failed");
+                });
+            }
+
             if (GUILayout.Button("Get User"))
             {
                 var userId = ApiDebugger.Instance.UserAuthPair.UserId;

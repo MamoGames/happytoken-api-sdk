@@ -1,9 +1,9 @@
-﻿using HappyTokenApi.Models;
+﻿using System;
 using System.Collections.Generic;
 
-namespace HappyTokenApi.Debugging
+namespace HappyTokenApi.Models
 {
-    public class ConfigDataStore
+    public class AppConfig
     {
         public AppDefaults AppDefaults { get; set; }
 

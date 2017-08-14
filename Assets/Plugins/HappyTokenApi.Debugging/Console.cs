@@ -18,7 +18,8 @@ namespace HappyTokenApi.Debugging
             m_DebugWindows = new DebugWindow[]
             {
                 new DashboardWindow(0, "Dashboard"),
-                new UserWindow(1,"User"), 
+                new ConfigWindow(1,"Config"), 
+                new UserWindow(2,"User"),
             };
 
             // Setup window titles for GUI SelectionGrid
