@@ -105,7 +105,7 @@ namespace HappyTokenApi.Debugging
                     ApiDebugger.Instance.SetConfigDataLoaded(true);
                 }, s =>
                 {
-                    Debug.LogError("ApiDebugger.GetUser: Failed");
+                    Debug.LogError("ApiDebugger.GetAppConfig: Failed");
                 });
             }
 

@@ -8,6 +8,8 @@ namespace HappyTokenApi.Debugging
     public class ApiDebugger : MonoBehaviour
     {
         private const string USER_AUTH_PAIR_KEY = "user_auth_pair";
+        private const string API_URL_LOCAL = "http://localhost:50456";
+        private const string API_URL_DEV = "http://dev.api.happytoken.io";
 
         public static ApiDebugger Instance { get; private set; }
 
@@ -37,8 +39,7 @@ namespace HappyTokenApi.Debugging
             }
 
             DeviceId = SystemInfo.deviceUniqueIdentifier;
-
-            ApiUrl = "http://localhost:50456";
+            ApiUrl = API_URL_DEV;
 
             UserAuthPair = LoadUserAuthPair();
 
@@ -46,7 +47,7 @@ namespace HappyTokenApi.Debugging
             ConfigDataStore = new ConfigDataStore();
 
             WebRequest = new WebRequest()
-                .SetApiUrl(ApiUrl)
+                .SetApiUrl(API_URL_DEV)
                 .SetMonoBehaviour(this);
         }
 

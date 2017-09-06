@@ -53,7 +53,7 @@ namespace HappyTokenApi.Client
 
         public void Authenticate(UserAuthPair userAuthPair, Action<JsonWebToken> onSuccess, Action<string> onFail)
         {
-            var routeUrl = $"{m_ApiUrl}/authentication";
+            var routeUrl = $"{m_ApiUrl}/token";
             var data = JsonConvert.SerializeObject(userAuthPair);
 
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
