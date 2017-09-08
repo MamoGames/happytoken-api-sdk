@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -13,10 +14,6 @@ namespace HappyTokenApi.Client
         private string m_ApiUrl;
         private JsonWebToken m_JsonWebToken;
         private MonoBehaviour m_MonoBehaviour;
-
-        public WebRequest()
-        {
-        }
 
         public WebRequest SetApiUrl(string apiUrl)
         {
@@ -41,8 +38,12 @@ namespace HappyTokenApi.Client
             return this;
         }
 
-        #region Api Requests
+        #region Account Creation & Authentication
 
+        /// <summary>
+        /// Used to create a new user given a device ID
+        /// </summary>        
+        /// <param name="onSuccess">Returns a UserAuthPair. Use Authenticate to generate a Session Token</param>
         public void CreateUser(UserDevice userDevice, Action<UserAuthPair> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/users";
@@ -51,6 +52,32 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
 
+        /// <summary>
+        /// Used to authenticate a user by Email and Password
+        /// </summary>
+        /// <param name="onSuccess">Returns a UserAuthPair. Use Authenticate to generate a Session Token</param>
+        public void LoginByEmail(UserEmailLogin userEmailLogin, Action<UserAuthPair> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/accounts/email";
+            var data = JsonConvert.SerializeObject(userEmailLogin);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
+        }
+
+        /// <summary>
+        /// Used to update a users Email and Password
+        /// </summary>
+        public void UpdateEmail(string userId, UserEmailLogin userEmailLogin, Action<RequestResult> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/accounts/email/{userId}";
+            var data = JsonConvert.SerializeObject(userEmailLogin);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        /// <summary>
+        /// Used to generate a session JWT to allow a user to make requests to authorized API routes
+        /// </summary>
         public void Authenticate(UserAuthPair userAuthPair, Action<JsonWebToken> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/token";
@@ -58,6 +85,10 @@ namespace HappyTokenApi.Client
 
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail));
         }
+
+        #endregion
+
+        #region App Config & User Login
 
         public void GetAppConfig(Action<AppConfig> onSuccess, Action<string> onFail)
         {
@@ -72,6 +103,10 @@ namespace HappyTokenApi.Client
 
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
         }
+
+        #endregion
+
+        #region Store
 
         public void BuyCurrency(StoreCurrencySpot currencySpot, Action<Wallet> onSuccess, Action<string> onFail)
         {
@@ -177,9 +212,8 @@ namespace HappyTokenApi.Client
 
                         if (!string.IsNullOrEmpty(downloadHandler.text))
                         {
-                            var dataObject = JsonConvert.DeserializeObject<T>(downloadHandler.text);
-
-                            if (dataObject != null)
+                            T dataObject;
+                            if (IsValidJson(downloadHandler.text, out dataObject))
                             {
                                 onSuccess?.Invoke(dataObject);
                             }
@@ -195,6 +229,34 @@ namespace HappyTokenApi.Client
                     }
                 }
             }
+        }
+
+        private static bool IsValidJson<T>(string json, out T obj)
+        {
+            json = json.Trim();
+
+            var isJsonObj = json.StartsWith("{") && json.EndsWith("}");
+            var isJsonArray = json.StartsWith("[") && json.EndsWith("]");
+
+            if (isJsonObj || isJsonArray)
+            {
+                try
+                {
+                    obj = JsonConvert.DeserializeObject<T>(json);
+                    return true;
+                }
+                catch (JsonReaderException jex)
+                {
+                    Debug.LogError(jex);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex);
+                }
+            }
+
+            obj = default(T);
+            return false;
         }
 
         #endregion

@@ -5,6 +5,10 @@ namespace HappyTokenApi.Debugging
 {
     public class DashboardWindow : DebugWindow
     {
+        private bool m_UseSaved;
+        private string m_Email;
+        private string m_Password;
+
         public DashboardWindow(int id, string title) : base(id, title) { }
 
         public override void Draw()
@@ -24,7 +28,7 @@ namespace HappyTokenApi.Debugging
 
         private void DrawMiscControlsList()
         {
-            GUILayout.BeginVertical();
+            GUILayout.BeginVertical(GUIContent.none, "box");
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("ApiUrl", GUILayout.MaxWidth(128));
@@ -44,6 +48,96 @@ namespace HappyTokenApi.Debugging
             GUILayout.BeginHorizontal();
             GUILayout.Label("AuthToken", GUILayout.MaxWidth(128));
             GUILayout.TextField(ApiDebugger.Instance.UserAuthPair.AuthToken);
+            GUILayout.EndHorizontal();
+
+            DrawEmail();
+
+            GUILayout.EndVertical();
+        }
+
+        private void DrawEmail()
+        {
+            GUILayout.BeginVertical(GUIContent.none, "box");
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Email", GUILayout.MaxWidth(128));
+            if (m_UseSaved)
+            {
+                GUILayout.Label(ApiDebugger.Instance.UserEmailLogin.Email);
+            }
+            else
+            {
+                m_Email = GUILayout.TextField(m_Email);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Password", GUILayout.MaxWidth(128));
+            if (m_UseSaved)
+            {
+                GUILayout.Label(ApiDebugger.Instance.UserEmailLogin.Password);
+            }
+            else
+            {
+                m_Password = GUILayout.TextField(m_Password);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+
+            if (ApiDebugger.Instance.IsAuthenticated)
+            {
+                m_UseSaved = false;
+
+                if (GUILayout.Button("Update Email"))
+                {
+                    var userEmailLogin = new UserEmailLogin
+                    {
+                        Email = m_Email,
+                        Password = ApiDebugger.Instance.HashPassword(m_Password)
+                    };
+
+                    var userId = ApiDebugger.Instance.UserAuthPair.UserId;
+
+                    ApiDebugger.Instance.WebRequest.UpdateEmail(userId, userEmailLogin, result =>
+                    {
+                        Debug.Log($"ApiDebugger.UpdateEmail: Successfully updated Email {userEmailLogin.Email} & Password {userEmailLogin.Password} Result:{result.Content}");
+                    }, s =>
+                    {
+                        Debug.LogError("ApiDebugger.UpdateEmail: Failed");
+                    });
+                }
+            }
+            else
+            {
+                m_UseSaved = GUILayout.Toggle(m_UseSaved, "Use Saved Email");
+
+                if (GUILayout.Button("Login"))
+                {
+                    // By default, use the saved email/password
+                    var userEmailLogin = ApiDebugger.Instance.UserEmailLogin;
+
+                    // Otherwise, overwrite with the above email/password (and hash)
+                    if (!m_UseSaved)
+                    {
+                        userEmailLogin = new UserEmailLogin
+                        {
+                            Email = m_Email,
+                            Password = ApiDebugger.Instance.HashPassword(m_Password)
+                        };
+                    }
+
+                    ApiDebugger.Instance.WebRequest.LoginByEmail(userEmailLogin, (userAuthPair) =>
+                    {
+                        ApiDebugger.Instance.SaveUserEmailLogin(userEmailLogin);
+                        ApiDebugger.Instance.SetUserAuthPair(userAuthPair, true);
+                    }, s =>
+                    {
+                        Debug.LogError("ApiDebugger.LoginByEmail: Failed");
+                    });
+                }
+            }
+
             GUILayout.EndHorizontal();
 
             GUILayout.EndVertical();
