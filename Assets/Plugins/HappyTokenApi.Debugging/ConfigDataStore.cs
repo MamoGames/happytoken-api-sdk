@@ -11,6 +11,8 @@ namespace HappyTokenApi.Debugging
 
         public List<Building> Buildings { get; set; }
 
+        public List<Promotion> Promotions { get; set; }
+
         public List<Cake> Cakes { get; set; }
 
         public Store Store { get; set; }
