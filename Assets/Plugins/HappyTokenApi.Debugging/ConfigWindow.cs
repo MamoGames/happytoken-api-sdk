@@ -89,7 +89,7 @@ namespace HappyTokenApi.Debugging
 
             GUILayout.Label("Promotions");
 
-            var promotions = ApiDebugger.Instance.ConfigDataStore.Promotions;
+            var promotions = ApiDebugger.Instance.ConfigDataStore.Store.Promotions;
 
             if (promotions != null)
             {

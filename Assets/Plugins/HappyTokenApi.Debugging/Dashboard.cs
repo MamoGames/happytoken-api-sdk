@@ -196,7 +196,6 @@ namespace HappyTokenApi.Debugging
                     ApiDebugger.Instance.ConfigDataStore.Buildings = appConfig.Buildings;
                     ApiDebugger.Instance.ConfigDataStore.Cakes = appConfig.Cakes;
                     ApiDebugger.Instance.ConfigDataStore.Store = appConfig.Store;
-                    ApiDebugger.Instance.ConfigDataStore.Promotions = appConfig.Promotions;
                     ApiDebugger.Instance.SetConfigDataLoaded(true);
                 }, s =>
                 {
