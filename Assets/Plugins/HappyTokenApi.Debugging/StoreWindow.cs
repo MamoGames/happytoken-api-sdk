@@ -173,7 +173,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"BuyAmount:{item.BuyAmount}");
                     GUILayout.Label($"SellCurrencyType:{item.SellCurrencyType}");
                     GUILayout.Label($"SellAmount:{item.SellAmount}");
-                    GUILayout.Toggle(item.IsPromoted, "IsPromoted");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyCurrency(item);
@@ -206,7 +205,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"Gems:{item.Gems}");
                     GUILayout.Label($"Gold:{item.Gold}");
                     GUILayout.Label($"HappyTokens:{item.HappyTokens}");
-                    GUILayout.Toggle(item.IsPromoted, "IsPromoted");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyAvatar(item.AvatarType);
@@ -236,7 +234,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"AvatarType:{item.AvatarType}");
                     GUILayout.Label($"Level:{item.Level}");
                     GUILayout.Label($"Gold:{item.Gold}");
-                    GUILayout.Toggle(item.IsPromoted, "IsPromoted");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyAvatarUpgrade(item);
@@ -265,7 +262,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.BeginVertical(GUIContent.none, "box");
                     GUILayout.Label($"BuildingType:{item.BuildingType}");
                     GUILayout.Label($"Gold:{item.Gold}");
-                    GUILayout.Toggle(item.IsPromoted, "IsPromoted");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyBuilding(item.BuildingType);
@@ -295,7 +291,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"BuildingType:{item.BuildingType}");
                     GUILayout.Label($"Level:{item.Level}");
                     GUILayout.Label($"Gold:{item.Gold}");
-                    GUILayout.Toggle(item.IsPromoted, "IsPromoted");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyBuildingUpgrade(item);

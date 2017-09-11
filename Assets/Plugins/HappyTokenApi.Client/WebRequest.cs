@@ -108,6 +108,14 @@ namespace HappyTokenApi.Client
 
         #region Store
 
+        public void BuyResourceMine(ResourceMineType resourceMineType, Action<Wallet> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/store/resourcemines";
+            var data = JsonConvert.SerializeObject(resourceMineType);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
         public void BuyCurrency(StoreCurrencySpot currencySpot, Action<Wallet> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/store/currencyspots";
