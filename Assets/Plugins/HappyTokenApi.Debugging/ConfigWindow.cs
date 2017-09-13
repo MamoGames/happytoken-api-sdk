@@ -22,8 +22,6 @@ namespace HappyTokenApi.Debugging
                 DrawBuildings();
 
                 DrawCakes();
-
-                DrawPromotions();
             }
             else
             {
@@ -76,33 +74,6 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"  Rarity:{building.RarityType}");
                     GUILayout.Label($"  Avatar:{building.AvatarType}");
                     GUILayout.Label($"  AvatarAlt:{building.AvatarTypeAlt}");
-                    GUILayout.EndVertical();
-                }
-            }
-
-            GUILayout.EndVertical();
-        }
-
-        private void DrawPromotions()
-        {
-            GUILayout.BeginVertical(GUIContent.none, "box");
-
-            GUILayout.Label("Promotions");
-
-            var promotions = ApiDebugger.Instance.ConfigDataStore.Store.Promotions;
-
-            if (promotions != null)
-            {
-                foreach (var promotion in promotions)
-                {
-                    GUILayout.BeginVertical(GUIContent.none, "box");
-                    GUILayout.Label($"  Code:{promotion.Code}");
-                    GUILayout.Label($"  Start:{promotion.StartDate}");
-                    GUILayout.Label($"  End:{promotion.EndDate}");
-                    GUILayout.Label($"  Gems:{promotion.Gems}");
-                    GUILayout.Label($"  Gems:{promotion.Gems}");
-                    GUILayout.Label($"  HappyTokens:{promotion.HappyTokens}");
-                    GUILayout.Label($"  Price:{promotion.Price}");
                     GUILayout.EndVertical();
                 }
             }

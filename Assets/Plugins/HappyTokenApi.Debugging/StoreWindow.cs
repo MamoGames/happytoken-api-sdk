@@ -26,6 +26,8 @@ namespace HappyTokenApi.Debugging
                 DrawBuildings();
 
                 DrawBuildingUpgrades();
+
+                DrawPromotions();
             }
             else
             {
@@ -33,6 +35,30 @@ namespace HappyTokenApi.Debugging
             }
 
             GUILayout.EndHorizontal();
+        }
+
+        private void BuyPromotion(string promotionCode)
+        {
+            if (m_IsBuying)
+            {
+                return;
+            }
+
+            m_IsBuying = true;
+
+            ApiDebugger.Instance.WebRequest.BuyPromotion(promotionCode, (wallet) =>
+            {
+                ApiDebugger.Instance.CoreDataStore.Wallet = wallet;
+
+                Debug.Log("BuyPromotion: Success!");
+
+                m_IsBuying = false;
+            }, s =>
+            {
+                Debug.LogError("BuyPromotion: Failed");
+
+                m_IsBuying = false;
+            });
         }
 
         private void BuyCurrency(StoreCurrencySpot currencySpot)
@@ -153,6 +179,37 @@ namespace HappyTokenApi.Debugging
 
                 m_IsBuying = false;
             });
+        }
+
+        private void DrawPromotions()
+        {
+            GUILayout.BeginVertical(GUIContent.none, "box");
+
+            GUILayout.Label("Promotions");
+
+            var promotions = ApiDebugger.Instance.ConfigDataStore.Store.Promotions;
+
+            if (promotions != null)
+            {
+                foreach (var promotion in promotions)
+                {
+                    GUILayout.BeginVertical(GUIContent.none, "box");
+                    GUILayout.Label($"  Code:{promotion.Code}");
+                    GUILayout.Label($"  Start:{promotion.StartDate}");
+                    GUILayout.Label($"  End:{promotion.EndDate}");
+                    GUILayout.Label($"  Gems:{promotion.Gems}");
+                    GUILayout.Label($"  Gems:{promotion.Gems}");
+                    GUILayout.Label($"  HappyTokens:{promotion.HappyTokens}");
+                    GUILayout.Label($"  Price:{promotion.Price}");
+                    if (GUILayout.Button("Buy"))
+                    {
+                        BuyPromotion(promotion.Code);
+                    }
+                    GUILayout.EndVertical();
+                }
+            }
+
+            GUILayout.EndVertical();
         }
 
         private void DrawCurrencySpots()

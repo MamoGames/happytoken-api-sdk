@@ -215,6 +215,7 @@ namespace HappyTokenApi.Debugging
                     ApiDebugger.Instance.CoreDataStore.Avatars = userLogin.UserAvatars;
                     ApiDebugger.Instance.CoreDataStore.Buildings = userLogin.UserBuildings;
                     ApiDebugger.Instance.CoreDataStore.Cakes = userLogin.UserCakes;
+                    ApiDebugger.Instance.CoreDataStore.DailyRewards = userLogin.DailyRewards;
                     ApiDebugger.Instance.SetUserDataLoaded(true);
                 }, s =>
                 {
