@@ -22,3 +22,4 @@ Builds
 obj
 *.pyc
 *.pyc.meta
+.vs/
