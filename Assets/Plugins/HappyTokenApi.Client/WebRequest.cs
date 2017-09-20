@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -102,6 +103,32 @@ namespace HappyTokenApi.Client
             var routeUrl = $"{m_ApiUrl}/users/{userId}";
 
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
+        #endregion
+
+        #region Friends
+
+        public void GetFriends(Action<List<FriendInfo>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/friends";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
+        public void GetSuggestedFriends(Action<List<FriendInfo>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/friends/suggested";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
+        public void AddFriend(string friendUserId, Action<List<FriendInfo>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/friends";
+            var data = JsonConvert.SerializeObject(friendUserId);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
         }
 
         #endregion

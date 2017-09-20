@@ -13,6 +13,9 @@ namespace HappyTokenApi.Debugging
         public List<UserCake> Cakes { get; set; }
         public DailyRewards DailyRewards { get; set; }
 
+        public List<FriendInfo> Friends { get; set; }
+        public List<FriendInfo> SuggestedFriends { get; set; }
+
         public CoreDataStore()
         {
             
