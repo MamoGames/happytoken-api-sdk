@@ -197,13 +197,9 @@ namespace HappyTokenApi.Debugging
                     GUILayout.Label($"  Code:{promotion.Code}");
                     GUILayout.Label($"  Start:{promotion.StartDate}");
                     GUILayout.Label($"  End:{promotion.EndDate}");
-                    GUILayout.Label($"  Gems:{promotion.Gems}");
-                    GUILayout.Label($"  Gems:{promotion.Gems}");
-                    GUILayout.Label($"  HappyTokens:{promotion.HappyTokens}");
-                    GUILayout.Label($"  Price:{promotion.Price}");
                     if (GUILayout.Button("Buy"))
                     {
-                        BuyPromotion(promotion.Code);
+                        BuyPromotion(promotion.PromotionId);
                     }
                     GUILayout.EndVertical();
                 }
@@ -226,10 +222,8 @@ namespace HappyTokenApi.Debugging
                 {
                     GUI.enabled = item.IsVisible;
                     GUILayout.BeginVertical(GUIContent.none, "box");
-                    GUILayout.Label($"BuyCurrencyType:{item.BuyCurrencyType}");
-                    GUILayout.Label($"BuyAmount:{item.BuyAmount}");
-                    GUILayout.Label($"SellCurrencyType:{item.SellCurrencyType}");
-                    GUILayout.Label($"SellAmount:{item.SellAmount}");
+                    GUILayout.Label($"Wallet:{item.Wallet}");
+                    GUILayout.Label($"Cost:{item.Cost}");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyCurrency(item);
@@ -259,9 +253,7 @@ namespace HappyTokenApi.Debugging
                     GUI.enabled = item.IsVisible;
                     GUILayout.BeginVertical(GUIContent.none, "box");
                     GUILayout.Label($"AvatarType:{item.AvatarType}");
-                    GUILayout.Label($"Gems:{item.Gems}");
-                    GUILayout.Label($"Gold:{item.Gold}");
-                    GUILayout.Label($"HappyTokens:{item.HappyTokens}");
+                    GUILayout.Label($"Cost:{item.Cost}");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyAvatar(item.AvatarType);
@@ -290,7 +282,7 @@ namespace HappyTokenApi.Debugging
                     GUILayout.BeginVertical(GUIContent.none, "box");
                     GUILayout.Label($"AvatarType:{item.AvatarType}");
                     GUILayout.Label($"Level:{item.Level}");
-                    GUILayout.Label($"Gold:{item.Gold}");
+                    GUILayout.Label($"Cost:{item.Cost}");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyAvatarUpgrade(item);
@@ -318,7 +310,7 @@ namespace HappyTokenApi.Debugging
                     GUI.enabled = item.IsVisible;
                     GUILayout.BeginVertical(GUIContent.none, "box");
                     GUILayout.Label($"BuildingType:{item.BuildingType}");
-                    GUILayout.Label($"Gold:{item.Gold}");
+                    GUILayout.Label($"Cost:{item.Cost}");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyBuilding(item.BuildingType);
@@ -347,7 +339,7 @@ namespace HappyTokenApi.Debugging
                     GUILayout.BeginVertical(GUIContent.none, "box");
                     GUILayout.Label($"BuildingType:{item.BuildingType}");
                     GUILayout.Label($"Level:{item.Level}");
-                    GUILayout.Label($"Gold:{item.Gold}");
+                    GUILayout.Label($"Cost:{item.Cost}");
                     if (GUILayout.Button("Buy"))
                     {
                         BuyBuildingUpgrade(item);

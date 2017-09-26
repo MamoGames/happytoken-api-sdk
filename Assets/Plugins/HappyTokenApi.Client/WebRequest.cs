@@ -248,6 +248,7 @@ namespace HappyTokenApi.Client
                     if (webRequest.responseCode >= 400)
                     {
                         onFail?.Invoke($"WebRequest HTTP Error:{webRequest.error}");
+                        Debug.LogError($"Received content: {webRequest.downloadHandler.text}");
                     }
                     else
                     {
