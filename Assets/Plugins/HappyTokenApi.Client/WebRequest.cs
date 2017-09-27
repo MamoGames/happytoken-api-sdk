@@ -191,6 +191,15 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
         }
 
+        public void BuyO2OProduct(StoreO2OProduct o2OProduct, Action<Wallet> onSuccess, Action<string> onFail) 
+        {
+            var routeUrl = $"{m_ApiUrl}/store/o2oproducts";
+            var data = JsonConvert.SerializeObject(o2OProduct);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+
         #endregion
 
         #region Helpers
