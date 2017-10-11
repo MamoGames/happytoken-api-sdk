@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HappyTokenApi.Models
+﻿namespace HappyTokenApi.Models
 {
     public class AppDefaults
     {
@@ -10,5 +7,11 @@ namespace HappyTokenApi.Models
         public int FriendsMaxCount { get; set; }
 
         public int MessageMaxChars { get; set; }
+
+        public int MaxCakeGiftPerDay { get; set; }
+
+        public int MaxFriendVisitPerDay { get; set; }
+
+        public int MaxCakeCount { get; set; }
     }
 }

@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace HappyTokenApi.Models
 {
     public enum StoreProductType
@@ -9,6 +7,7 @@ namespace HappyTokenApi.Models
         Building,
         BuildingUpgrade,
         CurrencySpot,
-        ResourceMine,
+		ResourceMine,
+		O2OProduct,
     }
 }

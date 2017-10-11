@@ -107,6 +107,40 @@ namespace HappyTokenApi.Client
 
         #endregion
 
+        #region Messages
+
+        public void GetMessages(Action<List<UserMessage>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/messages";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
+        public void DeleteMessage(string userMessageId, Action<List<UserMessage>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/messages/delete";
+            var data = JsonConvert.SerializeObject(userMessageId);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void SendCakeMessage(UserSendCakeMessage sendCakeMessage, Action<UserMessage> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/messages/cake";
+            var data = JsonConvert.SerializeObject(sendCakeMessage);
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
+        }
+
+        public void ClaimCakeMessage(string userMessageId, Action<List<UserCake>> onSuccess, Action<string> onFail)
+        {
+            var routeUrl = $"{m_ApiUrl}/messages/cake/{userMessageId}";
+
+            m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, null, onSuccess, onFail, useJwt: true));
+        }
+
+        #endregion
+
         #region Friends
 
         public void GetFriends(Action<List<FriendInfo>> onSuccess, Action<string> onFail)
@@ -191,7 +225,7 @@ namespace HappyTokenApi.Client
             m_MonoBehaviour.StartCoroutine(StartWebRequest(routeUrl, data, onSuccess, onFail, useJwt: true));
         }
 
-        public void BuyO2OProduct(StoreO2OProduct o2OProduct, Action<Wallet> onSuccess, Action<string> onFail) 
+        public void BuyO2OProduct(StoreO2OProduct o2OProduct, Action<Wallet> onSuccess, Action<string> onFail)
         {
             var routeUrl = $"{m_ApiUrl}/store/o2oproducts";
             var data = JsonConvert.SerializeObject(o2OProduct);
@@ -250,6 +284,7 @@ namespace HappyTokenApi.Client
                 if (webRequest.isNetworkError)
                 {
                     onFail?.Invoke($"WebRequest Network Error:{webRequest.error}");
+                    Debug.LogError($"Received content: {webRequest.downloadHandler.text}");
                 }
                 else
                 {

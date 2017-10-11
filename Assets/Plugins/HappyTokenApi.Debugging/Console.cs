@@ -22,6 +22,7 @@ namespace HappyTokenApi.Debugging
                 new FriendWindow(2,"Friends"),
                 new ConfigWindow(3,"Config"),
                 new StoreWindow(4, "Store"),
+                new MessagesWindow(5, "Messages"),
             };
 
             // Setup window titles for GUI SelectionGrid

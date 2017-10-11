@@ -15,10 +15,6 @@ namespace HappyTokenApi.Debugging
 
         public List<FriendInfo> Friends { get; set; }
         public List<FriendInfo> SuggestedFriends { get; set; }
-
-        public CoreDataStore()
-        {
-            
-        }
+        public List<UserMessage> Messages { get; set; }
     }
 }
